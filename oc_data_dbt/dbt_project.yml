@@ -29,3 +29,26 @@ models:
     +materialized: view
     +tags: ["staging"]
 
+models:
+  transient: false
+
+  # Our project
+  oc_data_dbt:
+    ## Layer - Raw
+    raw:
+        +database: oc_dw_dev
+        +schema: raw
+        +materialized: view
+    
+    ## Layer - Staging
+    conform:
+        +database: oc_dw_dev
+        +schema: staging
+        +materialized: table
+
+    ## Layer - RDV
+    rdv:
+        +database: oc_dw_dev
+        +schema: rdv
+        +materialized: table
+              

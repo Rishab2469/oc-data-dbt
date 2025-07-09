@@ -1,0 +1,8 @@
+external_tables:
+  - table_name: ext_table_ny
+    location: '@my_stage/ny/'
+    columns: 'id INT, name STRING'
+  - table_name: ext_table_ca
+    location: '@my_stage/ca/'
+    columns: 'id INT, name STRING'
+# Add more jurisdictions as needed

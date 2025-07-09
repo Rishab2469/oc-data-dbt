@@ -5,4 +5,4 @@ sources:
     database: YOUR_DATABASE
     schema: YOUR_SCHEMA
     tables:
-      - name: my_source_table # to be used in raw layer as source
+      - name: ext_table_ny # to be used in raw layer as source

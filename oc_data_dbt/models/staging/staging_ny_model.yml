@@ -1,8 +1,8 @@
 version: 2
 
 models:
-  - name: rdv_test_model
-    description: "RDV layer model built from staging_test_model."
+  - name: staging_ny_model
+    description: "Staging layer model for NY jurisdiction built from raw_ny_model."
     columns:
       - name: id
         description: "The unique identifier."

@@ -11,13 +11,11 @@ headers = {
 }
 
 
-def create_job(job_name, path_selector):
+def create_job(job_name, steps):
     payload = {
         "name": job_name,
         "project_id": project_id,
-        "execute_steps": [
-            f"dbt run --select {path_selector}"
-        ],
+        "execute_steps": steps,
         "triggers": {
             "github_webhook": False,
             "git_provider_webhook": False,
@@ -33,6 +31,14 @@ def create_job(job_name, path_selector):
     print(response.status_code)
     print(response.json())
 
-create_job("Raw Layer Build", "path:models/raw/")
-create_job("Staging Layer Build", "path:models/staging/")
-create_job("RDV Layer Build", "path:models/rdv/")
+# Raw layer job: create all external tables from config, then run raw models
+create_job(
+    "Raw Layer Build",
+    [
+        "dbt run-operation create_external_tables",
+        "dbt run --select path:models/raw/"
+    ]
+)
+# Staging and RDV jobs
+create_job("Staging Layer Build", ["dbt run --select path:models/staging/"])
+create_job("RDV Layer Build", ["dbt run --select path:models/rdv/"])

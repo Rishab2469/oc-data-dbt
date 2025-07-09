@@ -1,8 +1,7 @@
 version: 2
-
 models:
-  - name: staging_test_model
-    description: "Staging layer model built from raw_test_model."
+  - name: raw_ny_model
+    description: "A raw layer model for NY jurisdiction built from ext_table_ny."
     columns:
       - name: id
         description: "The unique identifier."
