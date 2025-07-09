@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: my_source
-    database: YOUR_DATABASE
-    schema: YOUR_SCHEMA
+    database: oc_dw_dev
+    schema: my_schema
     tables:
-      - name: ext_table_ny # to be used in raw layer as source
+      - name: us_ms_companies # to be used in raw layer as source

@@ -1,8 +1,10 @@
-external_tables:
-  - table_name: ext_table_ny
-    location: '@my_stage/ny/'
-    columns: 'id INT, name STRING'
-  - table_name: ext_table_ca
-    location: '@my_stage/ca/'
-    columns: 'id INT, name STRING'
+copy_jobs:
+  - target_schema: raw
+    target_table: raw_ny_model
+    source_stage: '@my_stage/us/us_ms/RA000619/web_portal/delta/'
+    file_format: (FORMAT_NAME = 'csv_fmt')
+    pattern: '.*\\.csv'
+    force: false
+    # Optionally, add a list of columns if you want to specify them
+    # columns: 'col1, col2, col3'
 # Add more jurisdictions as needed
