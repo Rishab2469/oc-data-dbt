@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: my_source
+    database: YOUR_DATABASE
+    schema: YOUR_SCHEMA
+    tables:
+      - name: my_source_table # to be used in raw layer as source

@@ -1,0 +1,12 @@
+version: 2
+models:
+  - name: raw_test_model
+    description: "A raw layer test model."
+    columns:
+      - name: id
+        description: "The unique identifier."
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: "A sample name column."
