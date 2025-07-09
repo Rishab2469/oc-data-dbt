@@ -35,7 +35,7 @@ def create_job(job_name, steps):
 create_job(
     "Raw Layer Build",
     [
-        "dbt run-operation create_external_tables",
+        # "dbt run-operation create_external_tables",
         "dbt run --select path:models/raw/"
     ]
 )
