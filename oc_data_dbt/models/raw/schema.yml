@@ -1,8 +1,0 @@
-version: 2
-
-sources:
-  - name: my_source
-    database: oc_dw_dev
-    schema: my_schema
-    tables:
-      - name: us_ms_companies # to be used in raw layer as source

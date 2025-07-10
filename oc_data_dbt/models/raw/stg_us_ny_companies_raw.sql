@@ -4,7 +4,7 @@
     post_hook='{{ create_external_tables() }}'
     ) 
 }}
--- This is a raw layer model for NY jurisdiction
+-- This is a raw layer model for NY jurisdiction, data will be loaded from post hook.
 SELECT
     NULL AS _meta_load_id,
     NULL AS _meta_load_timestamp,
@@ -19,5 +19,5 @@ SELECT
     NULL AS _meta_country,
     NULL AS _meta_jurisdiction,
     NULL AS _meta_registration_authority_code,
-    NULL AS FULL_ROW_FIXED_WIDTH
+    NULL AS FULL_ROW_CSV
 WHERE FALSE

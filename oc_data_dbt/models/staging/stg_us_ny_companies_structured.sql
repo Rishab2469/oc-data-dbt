@@ -5,13 +5,39 @@
 
 WITH raw_data AS (
     SELECT
+        _meta_load_id,
+        _meta_load_timestamp,
+        _meta_load_name,
+        _meta_load_version,
+        _meta_stg_file_name,
+        _meta_stg_file_last_modified,
+        _meta_stg_file_row_number,
+        _meta_stg_file_hash,
+        _meta_source_system,
+        _meta_source_entity,
+        _meta_country,
+        _meta_jurisdiction,
+        _meta_registration_authority_code,
         full_row_csv,
         PARSE_CSV_LINE(full_row_csv) AS parsed_array
-    FROM {{ ref('raw_ny_model') }}  -- replace with actual raw model name
+    FROM {{ ref('stg_us_ny_companies_raw') }}
 ),
 
 final_data AS (
-    SELECT
+    SELECT 
+        _meta_load_id,
+        _meta_load_timestamp,
+        _meta_load_name,
+        _meta_load_version,
+        _meta_stg_file_name,
+        _meta_stg_file_last_modified,
+        _meta_stg_file_row_number,
+        _meta_stg_file_hash,
+        _meta_source_system,
+        _meta_source_entity,
+        _meta_country,
+        _meta_jurisdiction,
+        _meta_registration_authority_code,
         parsed_array[0]  ::STRING AS dos_id,
         parsed_array[1]  ::STRING AS current_entity_name,
         parsed_array[2]  ::DATE   AS initial_dos_filing_date,
@@ -48,21 +74,3 @@ final_data AS (
 SELECT 
     * 
 from final_data
-where
-    current_entity_name IS NOT NULL
-    AND dos_id IS NOT NULL
-    AND initial_dos_filing_date IS NOT NULL
-    AND entity_type NOT IN (
-        'DOMESTIC BUSINESS CORPORATION RESERVATION',
-        'DOMESTIC PROFESSIONAL CORPORATION RESERVATION',
-        'DOMESTIC PROFESSIONAL SERVICE LIMITED LIABILITY COMPANY RESERVATION',
-        'DOMESTIC NOT-FOR-PROFIT CORPORATION RESERVATION',
-        'DOMESTIC LIMITED LIABILITY COMPANY RESERVATION',
-        'FOREIGN LIMITED LIABILITY COMPANY RESERVATION',
-        'FOREIGN BUSINESS CORPORATION RESERVATION',
-        'FOREIGN NOT-FOR-PROFIT CORPORATION RESERVATION',
-        'FOREIGN LIMITED PARTNERSHIP RESERVATION',
-        'FOREIGN PROFESSIONAL CORPORATION RESERVATION',
-        'DOMESTIC LIMITED PARTNERSHIP RESERVATION',
-        'FOREIGN PROFESSIONAL SERVICE LIMITED LIABILITY COMPANY RESERVATION'
-    )

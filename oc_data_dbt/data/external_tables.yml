@@ -1,6 +1,6 @@
 copy_jobs:
   - target_schema: raw
-    target_table: raw_ny_model
+    target_table: stg_us_ny_companies_raw
     source_stage: '@my_stage/us/us_ms/RA000619/web_portal/delta/'
     file_format: (FORMAT_NAME = 'csv_fmt')
     pattern: '.*\\.csv'

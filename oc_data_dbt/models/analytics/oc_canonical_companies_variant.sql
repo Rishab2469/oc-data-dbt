@@ -83,12 +83,31 @@ SELECT
         'location_state', s.location_state,
         'location_zip', s.location_zip
     ) AS all_attributes,
-    CURRENT_TIMESTAMP() as _meta_stg_file_name,
-    CURRENT_TIMESTAMP() as _meta_stg_file_last_modified
+    _meta_stg_file_name as _meta_stg_file_name,
+    _meta_stg_file_last_modified as _meta_stg_file_last_modified
 FROM {{ ref('stg_us_ny_companies') }} s
 LEFT JOIN officers ON s.dos_id = officers.entity_id
 LEFT JOIN agents ON s.dos_id = agents.entity_id
-
+WHERE
+    s.current_entity_name IS NOT NULL
+    AND s.current_entity_name NOT IN ('', 'none', 'n/a', '.', ',', '-', 'no information available')
+    AND s.dos_id IS NOT NULL
+    AND s.dos_id NOT IN ('', 'none', 'n/a', '.', ',', '-', 'no information available')
+    AND s.initial_dos_filing_date IS NOT NULL
+    AND s.entity_type NOT IN (
+        'DOMESTIC BUSINESS CORPORATION RESERVATION',
+        'DOMESTIC PROFESSIONAL CORPORATION RESERVATION',
+        'DOMESTIC PROFESSIONAL SERVICE LIMITED LIABILITY COMPANY RESERVATION',
+        'DOMESTIC NOT-FOR-PROFIT CORPORATION RESERVATION',
+        'DOMESTIC LIMITED LIABILITY COMPANY RESERVATION',
+        'FOREIGN LIMITED LIABILITY COMPANY RESERVATION',
+        'FOREIGN BUSINESS CORPORATION RESERVATION',
+        'FOREIGN NOT-FOR-PROFIT CORPORATION RESERVATION',
+        'FOREIGN LIMITED PARTNERSHIP RESERVATION',
+        'FOREIGN PROFESSIONAL CORPORATION RESERVATION',
+        'DOMESTIC LIMITED PARTNERSHIP RESERVATION',
+        'FOREIGN PROFESSIONAL SERVICE LIMITED LIABILITY COMPANY RESERVATION'
+    )
 {% if is_incremental() %}
-  WHERE s.initial_dos_filing_date > (SELECT COALESCE(MAX(incorporation_date), '1900-01-01') FROM {{ this }})
+  AND s.initial_dos_filing_date > (SELECT COALESCE(MAX(incorporation_date), '1900-01-01') FROM {{ this }})
 {% endif %} 

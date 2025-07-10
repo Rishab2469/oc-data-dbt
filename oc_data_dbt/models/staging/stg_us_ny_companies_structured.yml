@@ -1,8 +1,8 @@
 version: 2
 
 models:
-  - name: stg_ny_model_strctured
-    description: "Staging layer model for NY jurisdiction built from raw_ny_model."
+  - name: stg_us_ny_companies_structured
+    description: "Structured staging layer model for NY jurisdiction built from stg_us_ny_companies_raw."
     columns:
       - name: dos_id
         description: "Company number."
@@ -72,3 +72,4 @@ models:
         description: "Meta file name."
       - name: _meta_stg_file_last_modified
         description: "Meta file last modified."
+

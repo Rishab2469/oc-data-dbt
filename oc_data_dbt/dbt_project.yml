@@ -37,17 +37,23 @@ models:
     ## Layer - Raw
     raw:
         +database: oc_dw_dev
-        +schema: raw
+        +schema: oc_staging
         +materialized: view
-
-    ## Layer - RDV
-    rdv:
-        +database: oc_dw_dev
-        +schema: rdv
-        +materialized: table
 
     ## Layer - Staging
     staging:
         +database: oc_dw_dev
-        +schema: staging
+        +schema: oc_staging
         +materialized: table
+
+    ## Layer - RDV
+    rdv:
+        +database: oc_dw_dev
+        +schema: oc_rdv
+        +materialized: incremental
+
+    ## Layer - Analytics
+    analytics:
+        +database: oc_dw_dev
+        +schema: oc_conformed_back_sync
+        +materialized: incremental

@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: stg_us_ny_companies_raw
+    description: "Raw layer staging model for NY companies. Data is loaded via COPY INTO command."
+    columns:
+      - name: _meta_load_id
+        description: "Load ID."
+      - name: _meta_load_timestamp
+        description: "Load timestamp."
+      - name: _meta_load_name
+        description: "Load name."
+      - name: _meta_load_version
+        description: "Load version."
+      - name: _meta_stg_file_name
+        description: "Source file name."
+      - name: _meta_stg_file_last_modified
+        description: "Source file last modified timestamp."
+      - name: _meta_stg_file_row_number
+        description: "Source file row number."
+      - name: _meta_stg_file_hash
+        description: "Source file hash."
+      - name: _meta_source_system
+        description: "Source system name."
+      - name: _meta_source_entity
+        description: "Source entity name."
+      - name: _meta_country
+        description: "Country code."
+      - name: _meta_jurisdiction
+        description: "Jurisdiction code."
+      - name: _meta_registration_authority_code
+        description: "Registration authority code."
+      - name: FULL_ROW_CSV
+        description: "Full row csv data."
+

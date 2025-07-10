@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: oc_canonical_companies_variant
+    description: "Final model for canonical companies variant data."
+    columns:
+      - name: entity_id
+        description: "The unique identifier."
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: "Canonical company name."
+      - name: company_type
+        description: "Type of company."
+      - name: incorporation_date
+        description: "Date of incorporation."
+      - name: jurisdiction_code
+        description: "Jurisdiction code."
+      - name: county
+        description: "County."
+      - name: registered_address
+        description: "Registered address as a structured object."
+      - name: officers
+        description: "Array of officer objects."
+      - name: agents
+        description: "Array of agent objects."
+      - name: all_attributes
+        description: "All location attributes as a structured object."
+      - name: _meta_stg_file_name
+        description: "Meta file name."
+      - name: _meta_stg_file_last_modified
+        description: "Meta file last modified."
