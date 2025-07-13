@@ -1,0 +1,32 @@
+oc_data_dbt_snowflake:
+  target: dev
+  outputs:
+    dev:
+      account: NEIFMRH-NE54753
+      database: OC_DW_DEV
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: ACCOUNTADMIN
+      schema: EIX_RAW
+      threads: 4
+      type: snowflake
+      user: RISHAB
+      warehouse: COMPUTE_WH
+
+
+oc_data_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: athena
+      s3_staging_dir: s3://eix-athena-results-sandbox/
+      s3_data_dir: s3://eix-athena-results-sandbox/rishab/
+      s3_data_naming: table_unique
+      region_name: eu-west-2
+      database: AwsDataCatalog
+      schema: eix-data-catalog-sandbox
+      aws_profile_name: eix-sbx
+      threads: 2
+      num_retries: 1
+      data_catalog: AwsDataCatalog  
+
+

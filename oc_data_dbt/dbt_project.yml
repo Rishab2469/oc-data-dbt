@@ -2,7 +2,12 @@ name: 'oc_data_dbt'
 version: '1.0.0'
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'oc_data_dbt'
+profile: 'oc_data_dbt_snowflake'
+
+# Package dependencies
+packages:
+  - package: Datavault-UK/automate_dv
+    version: 0.11.2
 
 # These configurations specify where dbt should look for different types of files.
 
@@ -19,41 +24,30 @@ clean-targets:  # This setting specifies which directories dbt should clean when
 
 # Configuring models
 models:
-  raw:
-    +materialized: table
-    +tags: ["raw"]
-  rdv:
-    +materialized: view
-    +tags: ["rdv"]
-  staging:
-    +materialized: view
-    +tags: ["staging"]
-
-models:
   transient: false
 
   # Our project
   oc_data_dbt:
     ## Layer - Raw
     raw:
-        +database: oc_dw_dev
-        +schema: oc_staging
+        +database: OC_DW_DEV
+        +schema: eix_raw
         +materialized: view
 
     ## Layer - Staging
     staging:
-        +database: oc_dw_dev
-        +schema: oc_staging
+        +database: OC_DW_DEV
+        +schema: eix_structured
         +materialized: table
 
     ## Layer - RDV
     rdv:
-        +database: oc_dw_dev
-        +schema: oc_rdv
+        +database: OC_DW_DEV
+        +schema: eix_rdv
         +materialized: incremental
 
     ## Layer - Analytics
     analytics:
-        +database: oc_dw_dev
-        +schema: oc_conformed_back_sync
+        +database: OC_DW_DEV
+        +schema: eix_conformed_back_sync
         +materialized: incremental
