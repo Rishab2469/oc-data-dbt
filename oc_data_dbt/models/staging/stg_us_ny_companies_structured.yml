@@ -4,72 +4,96 @@ models:
   - name: stg_us_ny_companies_structured
     description: "Structured staging layer model for NY jurisdiction built from stg_us_ny_companies_raw."
     columns:
+      # Metadata columns
+      - name: _meta_load_id
+        description: "Load ID for tracking data loads."
+      - name: _meta_load_timestamp
+        description: "Timestamp when the data was loaded."
+      - name: _meta_load_name
+        description: "Name of the load process."
+      - name: _meta_load_version
+        description: "Version of the load process."
+      - name: _meta_stg_file_name
+        description: "Name of the source file."
+      - name: _meta_stg_file_last_modified
+        description: "Last modified timestamp of the source file."
+      - name: _meta_stg_file_row_number
+        description: "Row number in the source file."
+      - name: _meta_stg_file_hash
+        description: "Hash of the source file content."
+      - name: _meta_source_system
+        description: "Name of the source system."
+      - name: _meta_source_entity
+        description: "Name of the source entity."
+      - name: _meta_country
+        description: "Country code."
+      - name: _meta_jurisdiction
+        description: "Jurisdiction code."
+      - name: _meta_registration_authority_code
+        description: "Registration authority code."
+      # Business columns
       - name: dos_id
-        description: "Company number."
+        description: "Department of State ID for the company."
         tests:
           - not_null
       - name: current_entity_name
-        description: "Company name."
+        description: "Current name of the entity."
         tests:
           - not_null
-      - name: entity_type
-        description: "Type of company."
       - name: initial_dos_filing_date
-        description: "Incorporation date."
+        description: "Initial filing date with Department of State."
+      - name: county
+        description: "County where the company is located."
       - name: jurisdiction
         description: "Jurisdiction code."
-      - name: county
-        description: "County."
+      - name: entity_type
+        description: "Type of business entity."
       - name: dos_process_name
-        description: "Registered address care of."
+        description: "Process name for Department of State."
       - name: dos_process_address_1
-        description: "Registered address street address 1."
+        description: "Process address line 1."
       - name: dos_process_address_2
-        description: "Registered address street address 2."
+        description: "Process address line 2."
       - name: dos_process_city
-        description: "Registered address locality."
+        description: "Process address city."
       - name: dos_process_state
-        description: "Registered address region."
+        description: "Process address state."
       - name: dos_process_zip
-        description: "Registered address postal code."
+        description: "Process address zip code."
       - name: ceo_name
-        description: "CEO name."
+        description: "Chief Executive Officer name."
       - name: ceo_address_1
-        description: "CEO address 1."
+        description: "CEO address line 1."
       - name: ceo_address_2
-        description: "CEO address 2."
+        description: "CEO address line 2."
       - name: ceo_city
-        description: "CEO city."
+        description: "CEO address city."
       - name: ceo_state
-        description: "CEO state."
+        description: "CEO address state."
       - name: ceo_zip
-        description: "CEO zip."
+        description: "CEO address zip code."
       - name: registered_agent_name
         description: "Registered agent name."
       - name: registered_agent_address_1
-        description: "Registered agent address 1."
+        description: "Registered agent address line 1."
       - name: registered_agent_address_2
-        description: "Registered agent address 2."
+        description: "Registered agent address line 2."
       - name: registered_agent_city
-        description: "Registered agent city."
+        description: "Registered agent address city."
       - name: registered_agent_state
-        description: "Registered agent state."
+        description: "Registered agent address state."
       - name: registered_agent_zip
-        description: "Registered agent zip."
+        description: "Registered agent address zip code."
       - name: location_name
         description: "Location name."
       - name: location_address_1
-        description: "Location address 1."
+        description: "Location address line 1."
       - name: location_address_2
-        description: "Location address 2."
+        description: "Location address line 2."
       - name: location_city
-        description: "Location city."
+        description: "Location address city."
       - name: location_state
-        description: "Location state."
+        description: "Location address state."
       - name: location_zip
-        description: "Location zip."
-      - name: _meta_stg_file_name
-        description: "Meta file name."
-      - name: _meta_stg_file_last_modified
-        description: "Meta file last modified."
+        description: "Location address zip code."
 
