@@ -10,7 +10,9 @@ with source as (
         _meta_load_timestamp,
         _meta_source_system,
         _meta_jurisdiction,
-        _meta_registration_authority_code
+        _meta_registration_authority_code,
+        _meta_stg_file_name,
+        _meta_stg_file_last_modified
     from {{ ref('stg_us_ny_companies_structured') }}
 )
 
@@ -20,5 +22,7 @@ select
     _meta_load_timestamp,
     _meta_source_system,
     _meta_jurisdiction,
-    _meta_registration_authority_code
+    _meta_registration_authority_code,
+    _meta_stg_file_name,
+    _meta_stg_file_last_modified
 from source 

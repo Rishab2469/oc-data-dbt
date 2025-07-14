@@ -194,7 +194,9 @@ final as (
         END as branch,
         hub._meta_source_system,
         hub._meta_jurisdiction,
-        hub._meta_registration_authority_code
+        hub._meta_registration_authority_code,
+        hub._meta_stg_file_name,
+        hub._meta_stg_file_last_modified
     from company
     left join hub on company.company_hk = hub.company_hk
     left join officer_combined on company.company_hk = officer_combined.company_hk
