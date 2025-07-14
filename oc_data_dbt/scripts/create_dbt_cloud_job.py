@@ -31,14 +31,31 @@ def create_job(job_name, steps):
     print(response.status_code)
     print(response.json())
 
-# Raw layer job: create all external tables from config, then run raw models
+# Raw Layer
 create_job(
     "Raw Layer Build",
     [
-        # "dbt run-operation create_external_tables",
         "dbt run --select path:models/raw/"
     ]
 )
-# Staging and RDV jobs
-create_job("Staging Layer Build", ["dbt run --select path:models/staging/"])
-create_job("RDV Layer Build", ["dbt run --select path:models/rdv/"])
+# Staging Layer
+create_job(
+    "Staging Layer Build",
+    [
+        "dbt run --select path:models/staging/"
+    ]
+)
+# RDV Layer
+create_job(
+    "RDV Layer Build",
+    [
+        "dbt run --select path:models/rdv/"
+    ]
+)
+# Analytics/Conform Layer
+create_job(
+    "Analytics Layer Build",
+    [
+        "dbt run --select path:models/analytics/"
+    ]
+)

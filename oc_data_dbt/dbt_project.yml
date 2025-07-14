@@ -42,7 +42,7 @@ models:
         +materialized: incremental
 
     ## Layer - Analytics
-    analytics:
+    conform:
         +database: OC_DW_DEV
         +schema: oc_conformed_back_sync
         +materialized: incremental
