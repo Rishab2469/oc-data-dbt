@@ -51,18 +51,16 @@ officer_expanded as (
 
     SELECT
         company_hk,
-        location_name AS name,
-        location_address_1 AS address1,
-        location_address_2 AS address2,
-        location_city AS city,
-        location_state AS state,
-        location_zip AS postal_code,
+        dos_process_name AS name,
+        dos_process_address_1 AS address1,
+        dos_process_address_2 AS address2,
+        dos_process_city AS city,
+        dos_process_state AS state,
+        dos_process_zip AS postal_code,
         NULL AS country,
-        CASE
-            WHEN location_name ILIKE '%inc%' THEN 'DOS Process Agent'
-            ELSE 'registered agent'
-        END AS position
-    FROM {{ ref('s_us_ny_registered_addresses') }}
+        'DOS Process Agent' AS position
+    FROM {{ ref('s_us_ny_company_addresses') }}
+
 ),
 
 officer_combined AS (
@@ -152,10 +150,10 @@ headquarters as (
         object_construct(
             'street_address',
                         CASE
-                        WHEN dos_process_address_1 IS NOT NULL OR dos_process_address_2 IS NOT NULL OR dos_process_name IS NOT NULL 
+                        WHEN dos_process_address_1 IS NOT NULL OR dos_process_address_2 IS NOT NULL OR current_entity_name IS NOT NULL 
                         THEN
                             REGEXP_REPLACE(TRIM(CONCAT_WS(', ', 
-                                        TRIM(COALESCE(dos_process_name, '')),
+                                        TRIM(COALESCE(current_entity_name, '')),
                                         TRIM(COALESCE(dos_process_address_1, '')),
                                         TRIM(COALESCE(dos_process_address_2, ''))
                                     )), '\\s+', ' ')
@@ -176,7 +174,8 @@ final as (
         company.entity_id,
         company.current_entity_name as name,
         company.entity_type as company_type,
-        company.initial_dos_filing_date as incorporation_date,
+        -- company.initial_dos_filing_date as incorporation_date,
+        TO_CHAR(TO_DATE(company.initial_dos_filing_date), 'YYYY-MM-DD') as incorporation_date,
         hub._meta_jurisdiction as jurisdiction_code,
         company.county,
         registered_address.registered_address,
