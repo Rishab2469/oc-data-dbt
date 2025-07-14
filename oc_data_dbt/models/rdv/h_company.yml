@@ -1,8 +1,8 @@
 version: 2
 
 models:
-  - name: h_companies_ny
-    description: "Hub model for NY companies. Contains business key and metadata."
+  - name: h_company
+    description: "Hub model for All companies. Contains business key and metadata."
     columns:
       - name: company_hk
         description: "Hash key for the company, generated from entity_id."

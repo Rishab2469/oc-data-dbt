@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: s_us_ny_companies
+    description: "Satellite for company-related attributes for NY companies."
+    columns:
+      - name: company_hk
+        description: "Surrogate key for the company."
+        tests:
+          - not_null
+          - unique
+      - name: entity_id
+        description: "Business key for the company."
+        tests:
+          - not_null
+      - name: current_entity_name
+        description: "Current name of the entity."
+      - name: initial_dos_filing_date
+        description: "Initial DOS filing date."
+      - name: county
+        description: "County of registration."
+      - name: jurisdiction
+        description: "Jurisdiction code."
+      - name: entity_type
+        description: "Type of the entity."
+      - name: _meta_load_timestamp
+        description: "ETL load timestamp."
+      - name: _meta_source_system
+        description: "Source system identifier."
+      - name: sat_hashdiff
+        description: "Hashdiff for satellite change detection." 
