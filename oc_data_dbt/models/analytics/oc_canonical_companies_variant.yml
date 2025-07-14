@@ -2,32 +2,39 @@ version: 2
 
 models:
   - name: oc_canonical_companies_variant
-    description: "Final model for canonical companies variant data."
+    description: "Analytics model for canonical NY companies, combining hub and satellite information."
     columns:
-      - name: entity_id
-        description: "The unique identifier."
+      - name: company_hk
+        description: "Hash key for the company, generated from entity_id."
         tests:
-          - unique
+          - not_null
+      - name: entity_id
+        description: "Business key for the company (NY DOS ID)."
+        tests:
           - not_null
       - name: name
-        description: "Canonical company name."
+        description: "Current name of the entity."
       - name: company_type
-        description: "Type of company."
+        description: "Type of business entity."
       - name: incorporation_date
-        description: "Date of incorporation."
+        description: "Initial filing date with Department of State."
       - name: jurisdiction_code
         description: "Jurisdiction code."
       - name: county
-        description: "County."
+        description: "County where the company is located."
       - name: registered_address
-        description: "Registered address as a structured object."
+        description: "Registered address object for the company."
       - name: officers
-        description: "Array of officer objects."
+        description: "Array of officer objects for the company."
       - name: agents
-        description: "Array of agent objects."
+        description: "Array of agent objects for the company."
       - name: all_attributes
-        description: "All location attributes as a structured object."
-      - name: _meta_stg_file_name
-        description: "Meta file name."
-      - name: _meta_stg_file_last_modified
-        description: "Meta file last modified."
+        description: "Object containing all location and additional attributes."
+      - name: _meta_load_timestamp
+        description: "Timestamp when the data was loaded."
+      - name: _meta_source_system
+        description: "Name of the source system."
+      - name: _meta_jurisdiction
+        description: "Jurisdiction code from the hub."
+      - name: _meta_registration_authority_code
+        description: "Registration authority code from the hub." 

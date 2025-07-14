@@ -1,18 +1,19 @@
 version: 2
 
 models:
-  - name: stg_us_ny_companies_raw
-    description: "Raw layer model for NY companies. Data is loaded via COPY INTO command from S3."
+  - name: s_companies_ny
+    description: "Satellite model for NY companies. Contains descriptive attributes and hashdiff."
     columns:
-      # Business columns
-      - name: dos_id
-        description: "Department of State ID for the company."
+      - name: company_hk
+        description: "Hash key for the company, generated from entity_id."
+        tests:
+          - not_null
+      - name: entity_id
+        description: "Business key for the company (NY DOS ID)."
         tests:
           - not_null
       - name: current_entity_name
         description: "Current name of the entity."
-        tests:
-          - not_null
       - name: initial_dos_filing_date
         description: "Initial filing date with Department of State."
       - name: county
@@ -69,3 +70,9 @@ models:
         description: "Location address state."
       - name: location_zip
         description: "Location address zip code."
+      - name: _meta_load_timestamp
+        description: "Timestamp when the data was loaded."
+      - name: _meta_source_system
+        description: "Name of the source system."
+      - name: sat_hashdiff
+        description: "Hashdiff for change detection, generated from all business columns." 

@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: h_companies_ny
+    description: "Hub model for NY companies. Contains business key and metadata."
+    columns:
+      - name: company_hk
+        description: "Hash key for the company, generated from entity_id."
+        tests:
+          - not_null
+      - name: entity_id
+        description: "Business key for the company (NY DOS ID)."
+        tests:
+          - not_null
+      - name: _meta_load_timestamp
+        description: "Timestamp when the data was loaded."
+      - name: _meta_source_system
+        description: "Name of the source system."
+      - name: _meta_jurisdiction
+        description: "Jurisdiction code."
+      - name: _meta_registration_authority_code
+        description: "Registration authority code." 
