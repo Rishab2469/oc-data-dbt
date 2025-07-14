@@ -146,26 +146,25 @@ registered_address as (
 -- Headquarters address: Join to company_addresses and construct headquarters_address
 headquarters as (
     select
-        c.company_hk,
+        company_hk,
+        case when location_name IS NOT NULL OR location_address_1 IS NOT NULL OR location_address_2 IS NOT NULL THEN
         object_construct(
             'street_address',
                         CASE
-                        WHEN dos_process_address_1 IS NOT NULL OR dos_process_address_2 IS NOT NULL OR current_entity_name IS NOT NULL 
+                        WHEN location_name IS NOT NULL OR location_address_1 IS NOT NULL OR location_address_2 IS NOT NULL 
                         THEN
                             REGEXP_REPLACE(TRIM(CONCAT_WS(', ', 
-                                        TRIM(COALESCE(current_entity_name, '')),
-                                        TRIM(COALESCE(dos_process_address_1, '')),
-                                        TRIM(COALESCE(dos_process_address_2, ''))
+                                        TRIM(COALESCE(location_name, '')),
+                                        TRIM(COALESCE(location_address_1, '')),
+                                        TRIM(COALESCE(location_address_2, ''))
                                     )), '\\s+', ' ')
                         ELSE NULL
                         END,
-            'locality', ca.dos_process_city,
-            'region', ca.dos_process_state,
-            'postal_code', ca.dos_process_zip
-        ) as headquarters_address
-    from company c
-    left join company_addresses ca
-        on c.company_hk = ca.company_hk
+            'locality', location_city,
+            'region', location_state,
+            'postal_code', location_zip
+        ) ELSE NULL END as headquarters_address
+    from {{ref('s_us_ny_registered_addresses')}}
 ),
 -- Final output: Join all CTEs and select canonical company structure
 final as (
