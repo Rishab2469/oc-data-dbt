@@ -6,7 +6,7 @@ oc_data_dbt_snowflake:
       database: OC_DW_DEV
       password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       role: ACCOUNTADMIN
-      schema: EIX_RAW
+      schema: OC_RAW
       threads: 4
       type: snowflake
       user: RISHAB
