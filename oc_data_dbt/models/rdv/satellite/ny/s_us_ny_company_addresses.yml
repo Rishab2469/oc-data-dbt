@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: s_us_ny_company_addresses
+    description: "Satellite for NY company process address fields (fields with dos_ prefix)."
+    columns:
+      - name: company_hk
+        description: "Surrogate key for the company."
+        tests:
+          - not_null
+          - unique
+      - name: entity_id
+        description: "Business key for the company."
+        tests:
+          - not_null
+      - name: dos_process_name
+        description: "Care of/process name for service of process address."
+      - name: dos_process_address_1
+        description: "Service of process address line 1."
+      - name: dos_process_address_2
+        description: "Service of process address line 2."
+      - name: dos_process_city
+        description: "Service of process address city."
+      - name: dos_process_state
+        description: "Service of process address state."
+      - name: dos_process_zip
+        description: "Service of process address zip code."
+      - name: _meta_load_timestamp
+        description: "ETL load timestamp."
+      - name: _meta_source_system
+        description: "Source system identifier."
+      - name: sat_hashdiff
+        description: "Hashdiff for satellite change detection." 

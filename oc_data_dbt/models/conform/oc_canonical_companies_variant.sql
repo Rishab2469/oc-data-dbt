@@ -32,33 +32,63 @@ company as (
         )
 ),
 -- Officers aggregation: Array of officer objects per company, only valid names
-valid_officers as (
-    select * from {{ ref('s_us_ny_officers') }}
-    where ceo_name is not null
-      and ceo_name not in ('', 'none', 'n/a', '.', ',', '-', 'no information available', 'REGISTERED AGENT REVOKED', 'REGISTERED AGENT RESIGNED')
-),
-officers_agg as (
-    select
+officer_expanded as (
+    SELECT
         company_hk,
-        array_agg(
-            object_construct(
-                'name', ceo_name,
-                'position', 'chief executive officer',
-                'address', object_construct(
-                    'street_address', 
-                        case 
-                            when ceo_address_1 is not null and ceo_address_2 is not null and ceo_address_2 != ''
-                                then ceo_address_1 || ', ' || ceo_address_2
-                            else coalesce(ceo_address_1, ceo_address_2)
-                        end,
-                    'locality', ceo_city,
-                    'region', ceo_state,
-                    'postal_code', ceo_zip
-                )
-            )
-        ) as officers
-    from valid_officers
-    group by company_hk
+        ceo_name AS name,
+        ceo_address_1 AS address1,
+        ceo_address_2 AS address2,
+        ceo_city AS city,
+        ceo_state AS state,
+        ceo_zip AS postal_code,
+        NULL AS country,
+        'chief executive officer' AS position
+    FROM  {{ ref('s_us_ny_officers') }}
+    where ceo_name is not null
+    and ceo_name not in ('', 'none', 'n/a', '.', ',', '-', 'no information available', 'REGISTERED AGENT REVOKED', 'REGISTERED AGENT RESIGNED')
+
+    UNION ALL
+
+    SELECT
+        company_hk,
+        location_name AS name,
+        location_address_1 AS address1,
+        location_address_2 AS address2,
+        location_city AS city,
+        location_state AS state,
+        location_zip AS postal_code,
+        NULL AS country,
+        CASE
+            WHEN location_name ILIKE '%inc%' THEN 'DOS Process Agent'
+            ELSE 'registered agent'
+        END AS position
+    FROM {{ ref('s_us_ny_registered_addresses') }}
+),
+
+officer_combined AS (
+  SELECT
+    company_hk,
+    ARRAY_AGG(
+      OBJECT_CONSTRUCT(
+        'other_attributes', OBJECT_CONSTRUCT(
+          'address', OBJECT_CONSTRUCT(
+            'street_address',
+              CASE
+                WHEN address2 IS NOT NULL AND address2 <> ''
+                  THEN TRIM(address1 || ', ' || address2)
+                ELSE TRIM(address1)
+              END,
+            'locality', city,
+            'region', state,
+            'postal_code', postal_code
+          )
+        ),
+        'name', name,
+        'position', position
+      )
+    ) AS officers
+  FROM officer_expanded
+  GROUP BY company_hk 
 ),
 -- Registered agents aggregation: Array of agent objects per company, only valid names
 valid_agents as (
@@ -89,31 +119,55 @@ registered_agents_agg as (
     from valid_agents
     group by company_hk
 ),
--- Registered address: Join to staging to extract dos_process fields for each company
+-- Company addresses satellite for headquarters address
+company_addresses as (
+    select * from {{ ref('s_us_ny_company_addresses') }}
+),
+-- Registered address: Join to company_addresses to extract dos_process fields for each company
 registered_address as (
     select
         c.company_hk,
-        case when s.dos_process_name is not null then
+        case when ca.dos_process_name is not null then
             object_construct(
-                'care_of', s.dos_process_name,
+                -- 'care_of', ca.dos_process_name,
                 'street_address', 
                     case 
-                        when s.dos_process_address_1 is not null and s.dos_process_address_2 is not null and s.dos_process_address_2 != ''
-                            then s.dos_process_address_1 || ', ' || s.dos_process_address_2
-                        else coalesce(s.dos_process_address_1, s.dos_process_address_2)
+                        when ca.dos_process_address_1 is not null and ca.dos_process_address_2 is not null and ca.dos_process_address_2 != ''
+                            then ca.dos_process_address_1 || ', ' || ca.dos_process_address_2
+                        else coalesce(ca.dos_process_address_1, ca.dos_process_address_2)
                     end,
-                'locality', s.dos_process_city,
-                'region', s.dos_process_state,
-                'postal_code', s.dos_process_zip
+                'locality', ca.dos_process_city,
+                'region', ca.dos_process_state,
+                'postal_code', ca.dos_process_zip
             )
         else null end as registered_address
     from company c
-    left join {{ ref('stg_us_ny_companies_structured') }} s
-        on c.entity_id = s.entity_id
+    left join company_addresses ca
+        on c.company_hk = ca.company_hk
 ),
--- Registered addresses: Location and address details
-addresses as (
-    select * from {{ ref('s_us_ny_registered_addresses') }}
+-- Headquarters address: Join to company_addresses and construct headquarters_address
+headquarters as (
+    select
+        c.company_hk,
+        object_construct(
+            'street_address',
+                        CASE
+                        WHEN dos_process_address_1 IS NOT NULL OR dos_process_address_2 IS NOT NULL OR dos_process_name IS NOT NULL 
+                        THEN
+                            REGEXP_REPLACE(TRIM(CONCAT_WS(', ', 
+                                        TRIM(COALESCE(dos_process_name, '')),
+                                        TRIM(COALESCE(dos_process_address_1, '')),
+                                        TRIM(COALESCE(dos_process_address_2, ''))
+                                    )), '\\s+', ' ')
+                        ELSE NULL
+                        END,
+            'locality', ca.dos_process_city,
+            'region', ca.dos_process_state,
+            'postal_code', ca.dos_process_zip
+        ) as headquarters_address
+    from company c
+    left join company_addresses ca
+        on c.company_hk = ca.company_hk
 ),
 -- Final output: Join all CTEs and select canonical company structure
 final as (
@@ -123,30 +177,30 @@ final as (
         company.current_entity_name as name,
         company.entity_type as company_type,
         company.initial_dos_filing_date as incorporation_date,
-        company.jurisdiction as jurisdiction_code,
+        hub._meta_jurisdiction as jurisdiction_code,
         company.county,
         registered_address.registered_address,
-        officers_agg.officers,
+        headquarters.headquarters_address,
+        officer_combined.officers,
         registered_agents_agg.agents,
         object_construct(
-            'county', company.county,
-            'location_address_1', addresses.location_address_1,
-            'location_address_2', addresses.location_address_2,
-            'location_city', addresses.location_city,
-            'location_name', addresses.location_name,
-            'location_state', addresses.location_state,
-            'location_zip', addresses.location_zip
+            'County', company.county,
+            'Jurisdiction', company.jurisdiction
         ) as all_attributes,
         company._meta_load_timestamp,
+        CASE
+            WHEN company.entity_type ILIKE '%foreign%' THEN 'F'
+            ELSE null
+        END as branch,
         hub._meta_source_system,
         hub._meta_jurisdiction,
         hub._meta_registration_authority_code
     from company
     left join hub on company.company_hk = hub.company_hk
-    left join officers_agg on company.company_hk = officers_agg.company_hk
+    left join officer_combined on company.company_hk = officer_combined.company_hk
     left join registered_agents_agg on company.company_hk = registered_agents_agg.company_hk
     left join registered_address on company.company_hk = registered_address.company_hk
-    left join addresses on company.company_hk = addresses.company_hk
+    left join headquarters on company.company_hk = headquarters.company_hk
 )
 select * from final
 {% if is_incremental() %}
