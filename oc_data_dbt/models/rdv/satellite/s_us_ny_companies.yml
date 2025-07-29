@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: s_us_ny_companies
+    description: "Satellite model for NY companies. Tracks descriptive attributes and changes over time."
+    columns:
+      - name: DOS_ID
+        description: "Department of State ID for the company. Business key."
+        tests:
+          - not_null
+      - name: current_entity_name
+        description: "Current name of the entity."
+      - name: initial_dos_filing_date
+        description: "Initial filing date with Department of State."
+      - name: county
+        description: "County where the company is located."
+      - name: jurisdiction
+        description: "Jurisdiction code."
+      - name: entity_type
+        description: "Type of business entity."
+      - name: _meta_load_timestamp
+        description: "Timestamp when the data was loaded."
+      - name: _meta_source_system
+        description: "Name of the source system." 

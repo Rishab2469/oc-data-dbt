@@ -2,7 +2,7 @@ name: 'oc_data_dbt'
 version: '1.0.0'
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'oc_data_dbt_snowflake'
+profile: 'my_dv_project'
 
 # These configurations specify where dbt should look for different types of files.
 
@@ -23,26 +23,26 @@ models:
 
   # Our project
   oc_data_dbt:
-    ## Layer - Raw
+    # Layer - Raw
     raw:
-        +database: OC_DW_DEV
-        +schema: oc_raw
+        +database: healthy-silo-466713-c5
+        +schema: eix_staging_iceberg
         +materialized: view
 
-    ## Layer - Staging
+    # Layer - Staging
     staging:
-        +database: OC_DW_DEV
-        +schema: oc_structured
+        +database: healthy-silo-466713-c5
+        +schema: eix_staging_iceberg
         +materialized: table
 
     ## Layer - RDV
     rdv:
-        +database: OC_DW_DEV
-        +schema: oc_rdv
+        +database: healthy-silo-466713-c5
+        +schema: eix_staging_iceberg
         +materialized: incremental
 
-    ## Layer - Analytics
-    conform:
-        +database: OC_DW_DEV
-        +schema: oc_conformed_back_sync
-        +materialized: incremental
+    # ## Layer - Analytics
+    # conform:
+    #     +database: OC_DW_DEV
+    #     +schema: oc_conformed_back_sync
+    #     +materialized: incremental

@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: eix_staging
+    database: healthy-silo-466713-c5        # your GCP project ID
+    schema: eix_staging_iceberg           # your BigQuery dataset
+    tables:
+      - name: stg_eix_ny_ext

@@ -19,14 +19,25 @@ oc_data_dbt:
     dev:
       type: athena
       s3_staging_dir: s3://eix-athena-results-sandbox/
-      s3_data_dir: s3://eix-athena-results-sandbox/rishab/
+      s3_data_dir: s3://eix-athena-results-sandbox/iceberg/
       s3_data_naming: table_unique
       region_name: eu-west-2
       database: AwsDataCatalog
-      schema: eix-data-catalog-sandbox
+      schema: eix_dw_dev
       aws_profile_name: eix-sbx
       threads: 2
       num_retries: 1
       data_catalog: AwsDataCatalog  
 
 
+my_dv_project:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: oauth
+      project: healthy-silo-466713-c5
+      dataset: eix_staging_iceberg
+      threads: 2
+      timeout_seconds: 300
+      location: us-east1
