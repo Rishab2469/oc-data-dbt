@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: s_us_colorado_agent_addresses
+    description: "Satellite model for Colorado companies agent address information. Tracks agent address attributes and changes over time."
+    columns:
+      - name: entity_id
+        description: "Entity ID for the company. Business key."
+        tests:
+          - not_null
+      - name: agent_principal_address_1
+        description: "Agent's principal address line 1."
+      - name: agent_principal_address_2
+        description: "Agent's principal address line 2."
+      - name: agent_principal_city
+        description: "Agent's principal address city."
+      - name: agent_principal_state
+        description: "Agent's principal address state."
+      - name: agent_principal_zipcode
+        description: "Agent's principal address zip code."
+      - name: agent_principal_country
+        description: "Agent's principal address country."
+      - name: agent_mailing_address_1
+        description: "Agent's mailing address line 1."
+      - name: agent_mailing_address_2
+        description: "Agent's mailing address line 2."
+      - name: agent_mailing_city
+        description: "Agent's mailing address city."
+      - name: agent_mailing_state
+        description: "Agent's mailing address state."
+      - name: agent_mailing_zipcode
+        description: "Agent's mailing address zip code."
+      - name: agent_mailing_country
+        description: "Agent's mailing address country."
+      - name: _meta_load_timestamp
+        description: "Timestamp when the data was loaded."
+      - name: _meta_source_system
+        description: "Name of the source system." 

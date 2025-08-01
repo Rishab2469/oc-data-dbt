@@ -5,16 +5,23 @@
     incremental_strategy='merge'
 ) }}
 
-{%- set source_model = "stg_us_ny_companies_raw" -%}
-{%- set src_pk = ["DOS_ID"] -%}
-{%- set src_nk = "DOS_ID" -%}
+{%- set source_model = "stg_us_colorado_companies_raw" -%}
+{%- set src_pk = ["entity_id"] -%}
+{%- set src_hashdiff = [
+    'mailing_address_1',
+    'mailing_address_2',
+    'mailing_city',
+    'mailing_state',
+    'mailing_zipcode',
+    'mailing_country'
+] -%}
 {%- set src_ldts = "_meta_load_timestamp" -%}
 {%- set src_source = "_meta_source_system" -%}
 
-{{ automate_dv.hub(
+{{ automate_dv.sat(
     source_model=source_model,
     src_pk=src_pk,
-    src_nk=src_nk,
+    src_hashdiff=src_hashdiff,
     src_ldts=src_ldts,
     src_source=src_source
-) }}
+) }} 

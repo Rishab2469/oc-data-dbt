@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: s_us_colorado_companies
+    description: "Satellite model for Colorado companies basic information. Tracks core entity attributes and changes over time."
+    columns:
+      - name: entity_id
+        description: "Entity ID for the company. Business key."
+        tests:
+          - not_null
+      - name: entity_name
+        description: "Name of the entity."
+      - name: entity_status
+        description: "Status of the entity."
+      - name: jurisdiction_of_formation
+        description: "Jurisdiction where the entity was formed."
+      - name: entity_type
+        description: "Type of business entity."
+      - name: entity_form_date
+        description: "Date when the entity was formed."
+      - name: _meta_load_timestamp
+        description: "Timestamp when the data was loaded."
+      - name: _meta_source_system
+        description: "Name of the source system." 

@@ -6,3 +6,4 @@ sources:
     schema: eix_staging_iceberg           # your BigQuery dataset
     tables:
       - name: stg_eix_ny_ext
+      - name: stg_eix_colorado_ext

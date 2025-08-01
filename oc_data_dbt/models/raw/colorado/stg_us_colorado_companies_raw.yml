@@ -1,0 +1,108 @@
+version: 2
+
+models:
+  - name: stg_us_colorado_companies_raw
+    description: "Raw layer model for Colorado companies. Data is loaded via COPY INTO command from S3."
+    columns:
+      # Metadata columns
+      - name: _meta_load_id
+        description: "Load ID for tracking data loads."
+      - name: _meta_load_timestamp
+        description: "Timestamp when the data was loaded."
+      - name: _meta_load_name
+        description: "Name of the load process."
+      - name: _meta_load_version
+        description: "Version of the load process."
+      - name: _meta_stg_file_name
+        description: "Name of the source file."
+      - name: _meta_stg_file_last_modified
+        description: "Last modified timestamp of the source file."
+      - name: _meta_stg_file_row_number
+        description: "Row number in the source file."
+      - name: _meta_stg_file_hash
+        description: "Hash of the source file content."
+      - name: _meta_source_system
+        description: "Name of the source system."
+      - name: _meta_source_entity
+        description: "Name of the source entity."
+      - name: _meta_country
+        description: "Country code."
+      - name: _meta_jurisdiction
+        description: "Jurisdiction code."
+      - name: _meta_registration_authority_code
+        description: "Registration authority code."
+      # Business columns - Colorado specific fields
+      - name: entity_id
+        description: "Entity ID for the company."
+        tests:
+          - not_null
+      - name: entity_name
+        description: "Name of the entity."
+        tests:
+          - not_null
+      - name: principal_address_1
+        description: "Principal address line 1."
+      - name: principal_address_2
+        description: "Principal address line 2."
+      - name: principal_city
+        description: "Principal address city."
+      - name: principal_state
+        description: "Principal address state."
+      - name: principal_zipcode
+        description: "Principal address zip code."
+      - name: principal_country
+        description: "Principal address country."
+      - name: mailing_address_1
+        description: "Mailing address line 1."
+      - name: mailing_address_2
+        description: "Mailing address line 2."
+      - name: mailing_city
+        description: "Mailing address city."
+      - name: mailing_state
+        description: "Mailing address state."
+      - name: mailing_zipcode
+        description: "Mailing address zip code."
+      - name: mailing_country
+        description: "Mailing address country."
+      - name: entity_status
+        description: "Status of the entity."
+      - name: jurisdiction_of_formation
+        description: "Jurisdiction where the entity was formed."
+      - name: entity_type
+        description: "Type of business entity."
+      - name: agent_first_name
+        description: "Agent's first name."
+      - name: agent_middle_name
+        description: "Agent's middle name."
+      - name: agent_last_name
+        description: "Agent's last name."
+      - name: agent_suffix
+        description: "Agent's name suffix."
+      - name: agent_organization_name
+        description: "Agent's organization name."
+      - name: agent_principal_address_1
+        description: "Agent's principal address line 1."
+      - name: agent_principal_address_2
+        description: "Agent's principal address line 2."
+      - name: agent_principal_city
+        description: "Agent's principal address city."
+      - name: agent_principal_state
+        description: "Agent's principal address state."
+      - name: agent_principal_zipcode
+        description: "Agent's principal address zip code."
+      - name: agent_principal_country
+        description: "Agent's principal address country."
+      - name: agent_mailing_address_1
+        description: "Agent's mailing address line 1."
+      - name: agent_mailing_address_2
+        description: "Agent's mailing address line 2."
+      - name: agent_mailing_city
+        description: "Agent's mailing address city."
+      - name: agent_mailing_state
+        description: "Agent's mailing address state."
+      - name: agent_mailing_zipcode
+        description: "Agent's mailing address zip code."
+      - name: agent_mailing_country
+        description: "Agent's mailing address country."
+      - name: entity_form_date
+        description: "Date when the entity was formed." 

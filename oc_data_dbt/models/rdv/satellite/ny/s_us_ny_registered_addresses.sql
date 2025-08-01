@@ -5,14 +5,15 @@
     incremental_strategy='merge'
 ) }}
 
-{%- set source_model = "stg_us_ny_companies_structured" -%}
+{%- set source_model = "stg_us_ny_companies_raw" -%}
 {%- set src_pk = ["DOS_ID"] -%}
 {%- set src_hashdiff = [
-    'current_entity_name',
-    'initial_dos_filing_date',
-    'county',
-    'jurisdiction',
-    'entity_type'
+    'dos_process_name',
+    'dos_process_address_1',
+    'dos_process_address_2',
+    'dos_process_city',
+    'dos_process_state',
+    'dos_process_zip'
 ] -%}
 {%- set src_ldts = "_meta_load_timestamp" -%}
 {%- set src_source = "_meta_source_system" -%}

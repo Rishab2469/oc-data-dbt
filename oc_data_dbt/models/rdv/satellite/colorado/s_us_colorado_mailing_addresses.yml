@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: s_us_colorado_mailing_addresses
+    description: "Satellite model for Colorado companies mailing address information. Tracks mailing address attributes and changes over time."
+    columns:
+      - name: entity_id
+        description: "Entity ID for the company. Business key."
+        tests:
+          - not_null
+      - name: mailing_address_1
+        description: "Mailing address line 1."
+      - name: mailing_address_2
+        description: "Mailing address line 2."
+      - name: mailing_city
+        description: "Mailing address city."
+      - name: mailing_state
+        description: "Mailing address state."
+      - name: mailing_zipcode
+        description: "Mailing address zip code."
+      - name: mailing_country
+        description: "Mailing address country."
+      - name: _meta_load_timestamp
+        description: "Timestamp when the data was loaded."
+      - name: _meta_source_system
+        description: "Name of the source system." 

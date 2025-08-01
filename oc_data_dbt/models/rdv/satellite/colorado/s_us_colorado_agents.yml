@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: s_us_colorado_agents
+    description: "Satellite model for Colorado companies agent information. Tracks agent attributes and changes over time."
+    columns:
+      - name: entity_id
+        description: "Entity ID for the company. Business key."
+        tests:
+          - not_null
+      - name: agent_first_name
+        description: "Agent's first name."
+      - name: agent_middle_name
+        description: "Agent's middle name."
+      - name: agent_last_name
+        description: "Agent's last name."
+      - name: agent_suffix
+        description: "Agent's name suffix."
+      - name: agent_organization_name
+        description: "Agent's organization name."
+      - name: _meta_load_timestamp
+        description: "Timestamp when the data was loaded."
+      - name: _meta_source_system
+        description: "Name of the source system." 

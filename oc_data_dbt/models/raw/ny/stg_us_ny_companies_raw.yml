@@ -4,6 +4,33 @@ models:
   - name: stg_us_ny_companies_raw
     description: "Raw layer model for NY companies. Data is loaded via COPY INTO command from S3."
     columns:
+      # Metadata columns
+      - name: _meta_load_id
+        description: "Load ID for tracking data loads."
+      - name: _meta_load_timestamp
+        description: "Timestamp when the data was loaded."
+      - name: _meta_load_name
+        description: "Name of the load process."
+      - name: _meta_load_version
+        description: "Version of the load process."
+      - name: _meta_stg_file_name
+        description: "Name of the source file."
+      - name: _meta_stg_file_last_modified
+        description: "Last modified timestamp of the source file."
+      - name: _meta_stg_file_row_number
+        description: "Row number in the source file."
+      - name: _meta_stg_file_hash
+        description: "Hash of the source file content."
+      - name: _meta_source_system
+        description: "Name of the source system."
+      - name: _meta_source_entity
+        description: "Name of the source entity."
+      - name: _meta_country
+        description: "Country code."
+      - name: _meta_jurisdiction
+        description: "Jurisdiction code."
+      - name: _meta_registration_authority_code
+        description: "Registration authority code."
       # Business columns
       - name: dos_id
         description: "Department of State ID for the company."
@@ -69,3 +96,4 @@ models:
         description: "Location address state."
       - name: location_zip
         description: "Location address zip code."
+

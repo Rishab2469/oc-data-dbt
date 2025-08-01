@@ -26,19 +26,19 @@ models:
     # Layer - Raw
     raw:
         +database: healthy-silo-466713-c5
-        +schema: eix_staging_iceberg
+        +schema: eix_raw
         +materialized: view
 
     # Layer - Staging
     staging:
         +database: healthy-silo-466713-c5
-        +schema: eix_staging_iceberg
+        +schema: eix_staging
         +materialized: table
 
     ## Layer - RDV
     rdv:
         +database: healthy-silo-466713-c5
-        +schema: eix_staging_iceberg
+        +schema: eix_rdv
         +materialized: incremental
 
     # ## Layer - Analytics

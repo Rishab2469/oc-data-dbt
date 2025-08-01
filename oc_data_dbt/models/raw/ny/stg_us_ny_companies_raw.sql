@@ -1,9 +1,52 @@
-{{
-    config(
-        materialized='table',
-        catalog_name='bigquery_iceberg_catalog'
-    )
-}}
+{{ config(
+    materialized = 'table',
+    catalog_name  = 'bigquery_iceberg_catalog'
+) }}
 
-SELECT 
-    1 as col1
+
+select 
+    000 as _meta_load_id,
+    '{{ run_started_at }}' as _meta_load_timestamp,
+    'ny_companies' as _meta_load_name,
+    '1.0.0' as _meta_load_version,
+    'METADATA$FILENAME' as _meta_stg_file_name,
+    'METADATA$FILE_LAST_MODIFIED 'as _meta_stg_file_last_modified,
+    'METADATA$FILE_ROW_NUMBER' as _meta_stg_file_row_number,
+    'METADATA$FILE_CONTENT_KEY' AS _meta_stg_file_hash,
+    'us_ny' as _meta_source_system,
+    '' as _meta_source_entity,
+    'US' as _meta_country,
+    'us_ny' as _meta_jurisdiction,
+    '' as _meta_registration_authority_code,
+    dos_id,
+    current_entity_name,
+    initial_dos_filing_date,
+    county,
+    jurisdiction,
+    entity_type,
+    dos_process_name,
+    dos_process_address_1,
+    dos_process_address_2,
+    dos_process_city,
+    dos_process_state,
+    dos_process_zip,
+    ceo_name,
+    ceo_address_1,
+    ceo_address_2,
+    ceo_city,
+    ceo_state,
+    ceo_zip,
+    registered_agent_name,
+    registered_agent_address_1,
+    registered_agent_address_2,
+    registered_agent_city,
+    registered_agent_state,
+    registered_agent_zip,
+    location_name,
+    location_address_1,
+    location_address_2,
+    location_city,
+    location_state,
+    location_zip
+from {{ source('eix_staging', 'stg_eix_ny_ext') }}
+limit 100

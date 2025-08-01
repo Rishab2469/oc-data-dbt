@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: s_us_ny_companies_agents
+    description: "Satellite model for NY companies registered agent information. Tracks registered agent attributes and changes over time."
+    columns:
+      - name: DOS_ID
+        description: "Department of State ID for the company. Business key."
+        tests:
+          - not_null
+
+      - name: registered_agent_name
+        description: "Registered agent name."
+      - name: registered_agent_address_1
+        description: "Registered agent address line 1."
+      - name: registered_agent_address_2
+        description: "Registered agent address line 2."
+      - name: registered_agent_city
+        description: "Registered agent address city."
+      - name: registered_agent_state
+        description: "Registered agent address state."
+      - name: registered_agent_zip
+        description: "Registered agent address zip code."
+      - name: _meta_load_timestamp
+        description: "Timestamp when the data was loaded."
+      - name: _meta_source_system
+        description: "Name of the source system." 

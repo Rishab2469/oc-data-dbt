@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: s_us_colorado_principal_addresses
+    description: "Satellite model for Colorado companies principal address information. Tracks principal address attributes and changes over time."
+    columns:
+      - name: entity_id
+        description: "Entity ID for the company. Business key."
+        tests:
+          - not_null
+      - name: principal_address_1
+        description: "Principal address line 1."
+      - name: principal_address_2
+        description: "Principal address line 2."
+      - name: principal_city
+        description: "Principal address city."
+      - name: principal_state
+        description: "Principal address state."
+      - name: principal_zipcode
+        description: "Principal address zip code."
+      - name: principal_country
+        description: "Principal address country."
+      - name: _meta_load_timestamp
+        description: "Timestamp when the data was loaded."
+      - name: _meta_source_system
+        description: "Name of the source system." 

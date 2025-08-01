@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: s_us_ny_registered_addresses
+    description: "Satellite model for NY companies registered/process addresses. Tracks registered/process address attributes and changes over time."
+    columns:
+      - name: DOS_ID
+        description: "Department of State ID for the company. Business key."
+        tests:
+          - not_null
+      - name: dos_process_name
+        description: "Process name for Department of State."
+      - name: dos_process_address_1
+        description: "Process address line 1."
+      - name: dos_process_address_2
+        description: "Process address line 2."
+      - name: dos_process_city
+        description: "Process address city."
+      - name: dos_process_state
+        description: "Process address state."
+      - name: dos_process_zip
+        description: "Process address zip code."
+      - name: _meta_load_timestamp
+        description: "Timestamp when the data was loaded."
+      - name: _meta_source_system
+        description: "Name of the source system." 
